@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic Comments</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .topic-details {
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .topic-title {
+            margin: 0;
+            font-size: 1.5em;
+            color: #2e7d32;
+        }
+
+        .topic-description {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #2e7d32;
+        }
+
+        .comment-container {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            padding-top: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-author {
+            font-weight: bold;
+
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            resize: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .home-button {
+            float: right;
+            color: #4caf50;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+    </style>
+</head>
+<body>
+
+<div class="topic-details">
+    <h1 class="topic-title" th:text="${topic.title}"></h1>
+    <p class="topic-description" th:text="${topic.description}"></p>
+    <a href="/home/" class="home-button">Return to Home</a>
+</div>
+
+<h2>Comments</h2>
+
+<div th:each="comment : ${topic.comments}">
+    <div class="comment-container">
+        <p class="comment-author" th:text="${comment.user.username}"></p>
+        <p th:text="${comment.content}"></p>
+    </div>
+</div>
+
+<form action="/topic/{id}/addComment" method="post" th:action="@{'/topic/' + ${topic.id} + '/addComment'}">
+    <label for="commentContent">Your Comment:</label>
+    <textarea id="commentContent" name="content" rows="4" cols="50" required></textarea>
+    <input type="hidden" name="topicId" th:value="${topic.id}" />
+    <br/>
+    <button type="submit">Post Comment</button>
+</form>
+
+</body>
+</html>
+
